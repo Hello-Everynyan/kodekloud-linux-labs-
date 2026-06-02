@@ -64,3 +64,28 @@ Quan trọng 6 - Tạo một partition GPT tên vde1 với kích thước 500M t
     khi ok rồi thì nó sẽ hiện "Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING PARTITIONS!!"
     Lưu ý: Hãy đảm bảo bạn đã chọn đúng đĩa và không cần giữ dữ liệu cũ, vì quá trình này sẽ xóa tất cả phân vùng hiện tại trên đĩa đó!
 
+Linux Storage Filesystems: 7 questions
+    1 - always use sudo
+    2 - filesystems nào không dùng journal - ext2
+    3 - hệ thống tập tin đã được tạo trên các đĩa /dev/vdd hoặc /dev/vde, hỏi là ổ đĩa nào đã có hệ thống tập tin được tạo -> dùng sudo blkid /dev/vde và sudo blkid /dev/vdd
+    !!! blkid là lệnh để hiển thị thông tin về các thiết bị lưu trữ block, như:
+        + phân vùng đĩa cứng, USB, v.v. Nó cho biết UUID, loại hệ thống tập tin (như ext2, ext3, ntfs) và các thuộc tính khác
+        ví dụ khi chạy blkid thì nó sẽ hiện: /dev/vdd: UUID='dfags' BLOCK_SIZE="4096" TYPE="ext2"
+    4 - hỏi là /dev/vdd type nào - ext2
+    5 - Tạo filesystem ext4 trên disk /dev/vde và mount nó tại /mnt/data (mkfs là make filesystem)
+    Bước đầu: sudo mkfs.ext4 /dev/vde
+    Bước hai: sudo mkdir /mnt/data
+    Bước ba: sudo mount /dev/vde /mnt/data
+    6 - điều gì xảy ra với mount /mnt/data sau khi system reboot
+    -> The mount is not persistent in FSTAB yet. If the system is rebooted, the filesystem will not be mounted
+    7 - Làm cho mount lưu vĩnh viễn
+    Bước 1: vào /etc/fstab
+    Bước 2: thêm dòng /dev/vde /mnt/data ext4 rw 0 0
+    Cú pháp của fstab:   <device> <mount_point> <filesystem_type> <options> <dump> <pass>
+    Trong đó: 
+        + <dump>: dùng để sao lưu, thường để 0 hoặc 1
+        + <pass>: thứ tự để kiểm tra hệ thống tập tin khi khởi động, 0 nghĩa là không kiểm tra
+        + rw là viết tắt của read-write
+        + số đầu tiên là để hệ thống biết có cần sao lưu phân vùng này không (0 là không)
+        + số thứ hai là để xác định thứ tự kiểm tra hệ thống tập tin khi khởi động (0 nghĩa là bỏ qua)
+        
