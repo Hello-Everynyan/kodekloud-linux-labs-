@@ -40,3 +40,27 @@ Linux Networking: 13 questions
   12. How many network interfaces (including loopback) are currently listed on caleston-lp10?: ip link and count (2)
   13. According to the lecture, which keyword can be used in place of 0.0.0.0
   when specifying a catch-all destination in a routing table entry? default
+
+Linux Storage 2: 6 questions
+    1 - Cách biết có bao nhiêu disk dạng block devices trong system -> lsblk
+    2 - size của disk /dev/vdd
+    3 - major number của thiết bị begin với vd, số major đây là số mấy: 252
+    4 - max partitions mà MBR có thể có là 4
+    Giải thích: Hãy nghĩ về MBR như một chiếc hộp đựng tối đa 4 phần riêng biệt. Đó là giới hạn của nó, gồm cả phân vùng chính và mở rộng.
+    5 - Bao nhiêu partitions mà disk /dev/vda có hiện tại: 3 (không tính vda)
+    Có thể thấy khi lsblk:
+    vda
+        -vda1
+        -vda14
+        -vda15 
+Quan trọng 6 - Tạo một partition GPT tên vde1 với kích thước 500M trên ổ /dev/vde
+    sudo gdisk /dev/vde | chạy lệnh để mở công cụ gdisk trên đĩa /dev/vde
+    khi hỏi command (? for help) thì bấm n để tạo phân vùng mới
+    select partition number = 1 (vì mình chỉ tạo 1 phân vùng)
+    select default first sector = 2048 (mặc định là 2048) (nếu tạo các vùng tiếp theo thì là 2049 2050,...)
+    select +500M when asked for last sector (chọn kích thước cho phân vùng)
+    use default hex code (mã hex mặc định 8300, đại diện cho phân vùng Linux) (mã hex cho windows là 0700, đại diện cho phân vùng NTFS hoặc FAT32)
+    hỏi command (? for help): thì ghi w (để ghi các thay đổi vào bảng phân vùng)
+    khi ok rồi thì nó sẽ hiện "Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING PARTITIONS!!"
+    Lưu ý: Hãy đảm bảo bạn đã chọn đúng đĩa và không cần giữ dữ liệu cũ, vì quá trình này sẽ xóa tất cả phân vùng hiện tại trên đĩa đó!
+
