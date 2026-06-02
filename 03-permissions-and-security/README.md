@@ -13,3 +13,14 @@ Linux Account Management: 11 questions
   group chính là john và login shell = /bin/sh
   -> sudo groupadd -g 1010
   -> sudo useradd -u 1010 -g 1010 -s /bin/sh john
+
+Linux Permissions & Ownership: 9 questions
+  1 - Always use sudo
+  2 - 1 File mới được tạo và hỏi quyền owner của file đó: ls -l
+  3 - Hỏi quyền group của file đó
+  4 - Hỏi other
+  5 - Hỏi owner của thư mực
+  6 - File soccer được tạo dưới thư mục sports, có full quyền, yêu cầu đổi group và other thành r và execute -> chmod 755
+  7 - Thêm write và xóa tất cả các quyền của other
+  8 - Đổi ownership của file -> sudo chown [ten_nguoi_moi] [file]
+  9 - Đổi toàn quyền từ thư mục cha đến con: chown -R
