@@ -24,3 +24,13 @@ Linux Permissions & Ownership: 9 questions
   7 - Thêm write và xóa tất cả các quyền của other
   8 - Đổi ownership của file -> sudo chown [ten_nguoi_moi] [file]
   9 - Đổi toàn quyền từ thư mục cha đến con: chown -R
+
+Linux SSH & SCP: 8 questions
+  1 - port ssh: 22
+  2 - nếu ssh devapp01 thì user tên là gì: bob
+  3 - chuẩn bị tạo kết nối không cần pass tới server (password-less)
+  4 - ssh-keygen -t rsa (nhớ đọc option của ssh-keygen)
+  5 - public key tạo được lưu ở đâu: /home/bob/.ssh/id_rsa.pub (thường có extension là pub)
+  6 - ssh-copy-id vào bob@devapp01 để gửi public key vào, thường phải nhập mk của bob@devapp01
+  7 - file đưa vào server nằm ở đâu: /home/bob/.ssh/authorized_keys
+  8 - dùng scp để copy file từ máy bob sang server -> scp /home/bob/caleston-code.tar.gz devapp01:/home/bob
